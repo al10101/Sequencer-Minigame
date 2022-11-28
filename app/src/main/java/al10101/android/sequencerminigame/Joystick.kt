@@ -4,6 +4,8 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.view.MotionEvent
+import kotlin.math.atan
+import kotlin.math.sin
 import kotlin.math.sqrt
 
 class Joystick(
@@ -27,11 +29,13 @@ class Joystick(
 
     private val outerCirclePaint = Paint().apply {
         color = Color.GRAY
+        alpha = 100
         style = Paint.Style.FILL_AND_STROKE
     }
 
     private val innerCirclePaint = Paint().apply {
         color = Color.DKGRAY
+        alpha = 150
         style = Paint.Style.FILL_AND_STROKE
     }
 
@@ -88,6 +92,26 @@ class Joystick(
             actuatorX = deltaX / deltaDistance
             actuatorY = deltaY / deltaDistance
         }
+
+    }
+
+    fun angleOfActuator(): Float {
+
+        val norm = sqrt(actuatorX*actuatorX + actuatorY*actuatorY)
+        var angle = atan(-norm * actuatorY / actuatorX) // The angle determines the factor
+
+        if (actuatorX <= 0f) {
+            // If the joystick is on the left side
+            angle += 3.14159f
+        } else if (actuatorX > 0f && actuatorY > 0f) {
+            // If the joystick is bottom right (actuatorY is set backwards)
+            angle += 6.28319f
+        }
+
+        // Normalize to set factor
+        angle /= 6.28319f
+
+        return angle
 
     }
 
