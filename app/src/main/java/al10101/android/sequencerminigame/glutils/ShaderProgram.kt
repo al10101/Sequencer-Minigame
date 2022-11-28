@@ -10,6 +10,7 @@ private const val U_FREQUENCY_FACTOR = "u_FrequencyFactor"
 private const val U_AMPLITUDE_FACTOR = "u_AmplitudeFactor"
 private const val U_REAL_FREQUENCY_FACTOR = "u_RealFrequencyFactor"
 private const val U_REAL_AMPLITUDE_FACTOR = "u_RealAmplitudeFactor"
+private const val U_TIME_SINCE_CORRECT = "u_TimeSinceCorrect"
 
 private const val A_POSITION = "a_Position"
 
@@ -48,6 +49,9 @@ class ShaderProgram(
     private val uRealAmplitudeFactorLocation by lazy {
         glGetUniformLocation(program, U_REAL_AMPLITUDE_FACTOR)
     }
+    private val uTimeSinceCorrect by lazy {
+        glGetUniformLocation(program, U_TIME_SINCE_CORRECT)
+    }
 
     // Attributes
     val aPositionLocation by lazy {
@@ -61,7 +65,8 @@ class ShaderProgram(
     fun setUniforms(
         time: Float, resolution: FloatArray, baseColor: FloatArray,
         frequencyFactor: Float, amplitudeFactor: Float,
-        realFrequencyFactor: Float, realAmplitudeFactor: Float
+        realFrequencyFactor: Float, realAmplitudeFactor: Float,
+        timeSinceCorrect: Float
     ) {
         glUniform1f(uTimeLocation, time)
         glUniform2fv(uResolutionLocation, 1, resolution, 0)
@@ -70,6 +75,7 @@ class ShaderProgram(
         glUniform1f(uAmplitudeFactorLocation, amplitudeFactor)
         glUniform1f(uRealFrequencyFactorLocation, realFrequencyFactor)
         glUniform1f(uRealAmplitudeFactorLocation, realAmplitudeFactor)
+        glUniform1f(uTimeSinceCorrect, timeSinceCorrect)
     }
     
     

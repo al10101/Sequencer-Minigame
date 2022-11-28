@@ -22,6 +22,8 @@ class GameRenderer(private val context: Context): GLSurfaceView.Renderer {
     private var realFrequencyFactor = 0.5f
     private var realAmplitudeFactor = 0.5f
 
+    private var lastCorrectTime: Long? = null
+
     private lateinit var resolution: FloatArray
     private var globalStartTime: Long = 0
 
@@ -56,11 +58,14 @@ class GameRenderer(private val context: Context): GLSurfaceView.Renderer {
 
         val currentTime = (System.nanoTime() - globalStartTime) / NANOSECONDS
 
+        val timeSinceCorrect = (System.nanoTime() - (lastCorrectTime ?: System.nanoTime())) / NANOSECONDS
+
         program.useProgram()
         program.setUniforms(
             currentTime, resolution, baseColor,
             frequencyFactor, amplitudeFactor,
-            realFrequencyFactor, realAmplitudeFactor
+            realFrequencyFactor, realAmplitudeFactor,
+            timeSinceCorrect
         )
         quad.bindData(program)
         quad.draw()
@@ -78,6 +83,10 @@ class GameRenderer(private val context: Context): GLSurfaceView.Renderer {
     fun resetFreqAndAmpl(newFreq: Float, newAmpl: Float) {
         realFrequencyFactor = newFreq
         realAmplitudeFactor = newAmpl
+    }
+
+    fun isCorrectDuring(newLastCorrectTime: Long?) {
+        lastCorrectTime = newLastCorrectTime
     }
 
 }

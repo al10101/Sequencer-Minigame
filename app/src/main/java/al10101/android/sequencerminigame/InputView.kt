@@ -16,18 +16,23 @@ class InputView(context: Context, private val mainView: MainView): View(context)
     private val rightJoystick: Joystick
 
     init {
+        val widthInput = 2160f
+        val heightInput = 1800f
+
         val leftPositionX = 400f
         val leftPositionY = 700f
-        val rightPositionX = 2160f - leftPositionX // width of the screen
+        val rightPositionX = widthInput - leftPositionX // width of the screen
         val rightPositionY = 700f
         val outerRadius = 150f
         val innerRadius = 100f
+
         leftJoystick = Joystick(leftPositionX, leftPositionY, outerRadius, innerRadius)
         rightJoystick = Joystick(rightPositionX, rightPositionY, outerRadius, innerRadius)
     }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
+        Log.d(TAG, "onDraw: width= $width  height= $height")
 
         leftJoystick.draw(canvas)
         rightJoystick.draw(canvas)

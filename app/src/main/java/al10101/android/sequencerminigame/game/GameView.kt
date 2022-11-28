@@ -30,4 +30,10 @@ class GameView(context: Context): GLSurfaceView(context) {
         }
     }
 
+    fun isCorrectSince(lastTimeCorrect: Long?) {
+        queueEvent {
+            renderer.isCorrectDuring(lastTimeCorrect)
+        }
+    }
+
 }
